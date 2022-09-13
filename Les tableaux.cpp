@@ -1,48 +1,57 @@
 #include <stdio.h>
 int main(){
-	int nombres[] = {4, 76, 43, 75, 23, 12, 108, 432, 223, 45, 34};
+	int nombres[] = {4, 76, 43, 76, 23, 12, 108, 432, 223, 45, 34};
 	int size = sizeof nombres / sizeof nombres[0]; //nombre de cases dans le tableau
 	
-	//recherche du min et du max au sein d'un tableau
-	int max, min = nombres[0];
-	for(int i = 1; i<size; i++){
-		if(nombres[i] > max){
-			max  = nombres[i];
-		}
-		if(nombres[i] < min){
-			min = nombres[i];
-		}
-	}
-	printf("le nombre maximal dans le tableau est: %d \nEt le nombre minimal est: %d \n", max, min);
+	//tri par selection :
+	//ordre croissant
+	int min, indice;
 	
-	//recherche des paires et impaires
-	int paires[size];
-	int impaires[size];
-	int j=0, z = 0;
-	for(int i = 0; i < size; i++){
-		if(nombres[i]%2==0){
-			paires[j] = nombres[i];
-			j++;
-		}else{
-			impaires[z] = nombres[i];
-			z++;
+	for(int i = 0; i < size - 1; i++){
+		min = nombres[i];
+		for(int j= i + 1; j < size; j++){
+			if(min > nombres[j]){
+				min  = nombres[j];
+				indice = j;
+			}
+		}
+		if(min != nombres[i]){
+			nombres[indice] = nombres[i];
+			nombres[i] = min;
+			
 		}
 	}
-	printf("Tableau des paires : \n");
-	for(int i = 0; i < j; i++){
-		printf("%d\n", paires[i]);
+	for(int i = 0; i < size; i++){
+		printf("%d\n", nombres[i]);
 	}
-	printf("\nTableau des impaires : \n");
-	for(int i = 0; i < z; i++){
-		printf("%d\n", impaires[i]);
+	
+	printf("\n---------------------------------------------------------------\n");
+	//tri decroissant :
+	for(int i = 0; i <size-1; i++){
+		min = nombres[i];
+		for(int j = i+1; j < size; j++){
+			if(min < nombres[j]){
+				min = nombres[j];
+				indice = j;
+			}
+		}
+		if(min!=nombres[i]){
+			nombres[indice] = nombres[i];
+			nombres[i] = min;
+		}
 	}
+	for(int i = 0; i < size; i++){
+		printf("%d\n", nombres[i]);
+	}
+	
+	//tri par insertion
 	//tri croissant
 	printf("\n---------------------------------\n");
-	int var;
+	int var, j;
 	for(int i = 0; i < size; i++){
 		var = nombres[i];
 		j = i;
-		while(j >= 2 && nombres[j-1] > var){
+		while(j > 0 && nombres[j-1] > var){
 			nombres[j] = nombres[j-1];
 			j -= 1;
 		}
@@ -65,6 +74,24 @@ int main(){
 	}
 	for(int i = 0; i < size; i++){
 		printf("%d\n", nombres[i]);
-	} 
+	}
+	
+	//tri de bulles:
+	int min;
+	bool nu;
+	do{
+		nu=false;
+		for(int i = 0; i < size-1; i++){
+			if(nombres[i] > nombres[i+1]){
+				nu = true;
+				min = nombres[i];
+				nombres[i] = nombres[i+1];
+				nombres[i+1] = min;
+			}
+		}
+	}while(nu);
+	for(int i = 0; i < size; i++){
+		printf("%d\n", nombres[i]);
+	}
 }
 
